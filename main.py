@@ -101,6 +101,6 @@ for i, en_entry in enumerate(en_data):
     direct_matches.append({"n.uri": en_entry["n.uri"], "topSimilarNodes": top_similar_nodes})
 
 # Save the results
-with open('results/similar_entities_dbp15k_combined.json', 'w', encoding='utf-8-sig') as f:
+with open('Results/similar_entities_dbp15k_combined.json', 'w', encoding='utf-8-sig') as f:
     json.dump(direct_matches, f, indent=2)
 
