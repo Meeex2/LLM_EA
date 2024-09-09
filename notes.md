@@ -78,3 +78,50 @@ Hits@1: 0.004
 Hits@5: -0.003
 Hits@10: -0.002
 Hits@20: -0.003
+
+## Experiement 2:
+For each entity, I calculated the embeddings of its name, attributes, values, and relationships.
+Then I stored them in pkl files along with a meta data file containing the entity name and indices of the attributes, values, and relationships.
+
+In the script `interaction_model.py`, I calculated the distance between the entities in english and french.
+Then I showed topk closest. After that I measured hit@n for n = 1, 3, 5, 10 with entities embeddings only.
+
+Measuring hit@n...
+hit@1:  0.7976666666666666
+hit@3:  0.8538666666666667
+hit@5:  0.8706666666666667
+hit@10:  0.8892
+
+
+## Experiement 3:
+`entity_alignment_2.py`
+- Concatenating all vectors of an entity with the average of the vectors of its attributes, values, and relationships.
+Hit@K Metrics:
+Hit@1: 0.8312
+Hit@2: 0.8683
+Hit@3: 0.8833
+Hit@5: 0.8979
+Hit@10: 0.9139
+
+- Using max instead of average
+Hit@K Metrics:
+Hit@1: 0.8293
+Hit@2: 0.8659
+Hit@3: 0.8816
+Hit@5: 0.8961
+Hit@10: 0.9144
+
+- Removing attributes, values, and relationships from the stacked vector we get the same results as experiment 2.
+Hit@K Metrics:
+Hit@1: 0.7977
+Hit@2: 0.8365
+Hit@3: 0.8539
+Hit@5: 0.8707
+Hit@10: 0.8892
+
+- Add average of neighbors entities embedding to the stacked vector
+Hit@K Metrics:
+Hit@1: 0.8392
+Hit@3: 0.8906
+Hit@5: 0.9059
+Hit@10: 0.9238
