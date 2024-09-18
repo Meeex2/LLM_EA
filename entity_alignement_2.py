@@ -3,9 +3,12 @@ from tqdm import tqdm
 import json
 
 
-def load_embeddings(pkl_file):
+def load_embeddings(pkl_file, cuda=True):
     print(f"Loading embeddings from {pkl_file}...")
-    return torch.load("data/embeddings/" + pkl_file).cuda()  # Load directly to GPU
+    if cuda:
+        return torch.load("data/embeddings/" + pkl_file).cuda()
+    else:
+        return torch.load("data/embeddings/" + pkl_file)
 
 
 def load_metadata(json_file):
@@ -38,6 +41,16 @@ def get_max_or_zeros(tensor):
         ]  # Return the maximum along the specified dimension
 
 
+def get_mean_or_zeros(tensor):
+    if tensor.size(0) == 0:  # Check if the tensor is empty
+        # Return a tensor of zeros with the same number of columns and device as the input tensor
+        return torch.zeros(tensor.size(1), dtype=tensor.dtype, device=tensor.device)
+    else:
+        return torch.mean(
+            tensor, dim=0
+        )  # Return the maximum along the specified dimension
+
+
 def aggregate_all_entities(metadata, entities, attributes, values, relationships):
     print("Aggregating embeddings for all entities...")
     all_embeddings = []
@@ -48,15 +61,15 @@ def aggregate_all_entities(metadata, entities, attributes, values, relationships
 
         # Aggregating attribute embeddings based on index ranges
         a, b = metadata[entity_name]["attributes_indices"]
-        attribute_embeddings = get_max_or_zeros(attributes[a:b])
+        attribute_embeddings = get_mean_or_zeros(attributes[a:b])
 
         # Aggregating value embeddings based on index ranges
         a, b = metadata[entity_name]["values_indices"]
-        value_embeddings = get_max_or_zeros(values[a:b])
+        value_embeddings = get_mean_or_zeros(values[a:b])
 
         # Aggregating relationship embeddings based on index ranges
         a, b = metadata[entity_name]["relationships_indices"]
-        relationship_embeddings = get_max_or_zeros(relationships[a:b])
+        relationship_embeddings = get_mean_or_zeros(relationships[a:b])
 
         # Get neighbors
         neighbors = metadata[entity_name]["neighbors"]
@@ -98,7 +111,7 @@ def align_entities_with_cdist(
     meta_en,
     meta_fr,
     mapping,
-    top_k_values=[1, 2, 3, 5, 10],
+    top_k_values,
 ):
     print("Calculating distances between all entities...")
     num_en = len(meta_en)
@@ -174,18 +187,20 @@ def main():
     mapping_file = "data/ent_ILLs"
     mapping = load_mapping(mapping_file)
 
+    top_k_values = [1, 5, 10, 20]
+
     hits_at_k_metrics = align_entities_with_cdist(
         entities_en_tensor,
         entities_fr_tensor,
         meta_data_en,
         meta_data_fr,
         mapping,
-        top_k_values=[1, 2, 3, 5, 10],
+        top_k_values,
     )
 
     # Print the Hit@K metrics
     print("\nHit@K Metrics:")
-    for k in [1, 3, 5, 10]:
+    for k in top_k_values:
         print(f"Hit@{k}: {hits_at_k_metrics[k]:.4f}")
 
 

@@ -125,3 +125,23 @@ Hit@1: 0.8392
 Hit@3: 0.8906
 Hit@5: 0.9059
 Hit@10: 0.9238
+
+# Attention based model
+embed_dim = 384
+num_epochs = 12
+num_neg_samples = 5
+
+model = NodeAlignmentModel(embed_dim).to("cuda")
+optimizer = Adam(model.parameters(), lr=0.0005)
+loss_func = nn.MarginRankingLoss(margin=1.0)
+
+Epoch 12/12, Training Loss  : 0.02925793
+Epoch 12/12, Validation Loss: 0.05335503
+mean_p_pos:  3.098609209060669
+mean_p_neg:  -2.7597882747650146
+ python model/evaluate_hits.py
+Hit@ 1: 0.11000000
+Hit@ 3: 0.24300000
+Hit@ 5: 0.32666665
+Hit@10: 0.46166667
+

@@ -83,43 +83,43 @@ for data, rel_data in zip(fr_data, fr_rel_data):
 
     meta_data[entity_name] = meta_
     index += 1
-#
-# # Compute embeddings
-# print("Computing embeddings...")
-# print("Entities...")
-# entities_embeddings = model_minilm.encode(
-#     entities, convert_to_tensor=True, device=device, show_progress_bar=True
-# )
-# print("saving...")
-# with open("data/embeddings/entities_embeddings_dbp15k_fr.pkl", "wb") as f:
-#     torch.save(entities_embeddings, f)
-#
-# print("Attributes...")
-# attributes_embeddings = model_minilm.encode(
-#     attributes, convert_to_tensor=True, device=device, show_progress_bar=True
-# )
-# print("saving...")
-# with open("data/embeddings/attributes_embeddings_dbp15k_fr.pkl", "wb") as f:
-#     torch.save(attributes_embeddings, f)
-#
-# print("Values...")
-# values_embeddings = model_minilm.encode(
-#     values, convert_to_tensor=True, device=device, show_progress_bar=True
-# )
-# print("saving...")
-# with open("data/embeddings/values_embeddings_dbp15k_fr.pkl", "wb") as f:
-#     torch.save(values_embeddings, f)
-#
-# print("Relationships...")
-# relationships_embeddings = model_minilm.encode(
-#     relationships,
-#     convert_to_tensor=True,
-#     device=device,
-#     show_progress_bar=True,
-# )
-# print("saving...")
-# with open("data/embeddings/relationships_embeddings_dbp15k_fr.pkl", "wb") as f:
-#     torch.save(relationships_embeddings, f)
-#
+
+# Compute embeddings
+print("Computing embeddings...")
+print("Entities...")
+entities_embeddings = model_minilm.encode(
+    entities, convert_to_tensor=True, device=device, show_progress_bar=True
+)
+print("saving...")
+with open("data/embeddings/entities_embeddings_dbp15k_fr.pkl", "wb") as f:
+    torch.save(entities_embeddings, f)
+
+print("Attributes...")
+attributes_embeddings = model_minilm.encode(
+    attributes, convert_to_tensor=True, device=device, show_progress_bar=True
+)
+print("saving...")
+with open("data/embeddings/attributes_embeddings_dbp15k_fr.pkl", "wb") as f:
+    torch.save(attributes_embeddings, f)
+
+print("Values...")
+values_embeddings = model_minilm.encode(
+    values, convert_to_tensor=True, device=device, show_progress_bar=True
+)
+print("saving...")
+with open("data/embeddings/values_embeddings_dbp15k_fr.pkl", "wb") as f:
+    torch.save(values_embeddings, f)
+
+print("Relationships...")
+relationships_embeddings = model_minilm.encode(
+    relationships,
+    convert_to_tensor=True,
+    device=device,
+    show_progress_bar=True,
+)
+print("saving...")
+with open("data/embeddings/relationships_embeddings_dbp15k_fr.pkl", "wb") as f:
+    torch.save(relationships_embeddings, f)
+
 # Save metadata
 json.dump(meta_data, open("data/embeddings/meta_data_dbp15k_fr.json", "w"), indent=2)
