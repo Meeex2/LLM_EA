@@ -1,6 +1,10 @@
+print("Starting creation of embeddings for english")
 import json
 from sentence_transformers import SentenceTransformer
 import torch
+import os
+
+os.makedirs("data/embeddings/")
 
 # Load models
 device = "cuda" if torch.cuda.is_available() else "cpu"
