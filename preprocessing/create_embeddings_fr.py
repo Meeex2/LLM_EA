@@ -35,7 +35,7 @@ for data, rel_data in zip(fr_data, fr_rel_data):
     entity_name = data["n.uri"].split("/")[-1].replace("_", " ")
     meta_["name"] = entity_name
     meta_["index"] = index
-    entities.append(data["n.uri"].split("/")[-1].replace("_", " "))
+    entities.append(entity_name)
 
     # Take keys from properties
     entity_attributes = data["properties(n)"].keys()
